@@ -1,0 +1,4 @@
+#Ignore Invironment files
+pyenv/
+#Jupyther Notebooks
+**/*.ipynb

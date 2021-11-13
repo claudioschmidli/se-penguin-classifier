@@ -1,6 +1,11 @@
-# DAS Software Engineering Projektarbeit
+# App for classifying penguins
+###SE Project by   Claudio Schmidli and Andrea Siedmann
+ToDo: Project Description
+You can find a detailed description of the penguins dataset [here] (https://www.kaggle.com/parulpandey/penguin-dataset-the-new-iris)
 
-Projektarbeit DAS Software Engineering
+ToDo: Installation
+------------------
+ToDo: e.g. download the projekt [here](..). In `requirements.txt` you can find, what python packages are required to run the project.
 
 ## Getting started
 
