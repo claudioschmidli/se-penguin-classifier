@@ -3,5 +3,6 @@ pyenv/
 #Jupyther Notebooks
 **/*.ipynb
 #ignore Spyder files
-**/.spyproject
+SWE\ Project/.spyproject/
+
 
