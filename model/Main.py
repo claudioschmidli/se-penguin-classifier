@@ -16,11 +16,6 @@ from sklearn.metrics import plot_confusion_matrix
 #Set constants
 plt.style.use('seaborn-muted')
 
-   
-def preprocess_data(data, X_VARIABLES, Y_VARIABLE='Species'):
-    data = data.dropna(subset=X_VARIABLES)
-    return data
-
 def plot_features(X_train, X_test,  y_train, y_test, feature1, feature2):
     # Anzeige der Trainings (schwarz) - bzw. Testdaten (rot) gemäss den gewählten Prädiktoren und Klassen.
     plt.figure(figsize=(6, 6))
@@ -103,53 +98,66 @@ def show_confusion_matrix(X,y,y_pred, clf):
     plt.gcf().axes[1].tick_params(colors='black')
     plt.gcf().set_size_inches(10,5)
     plt.show()
-     
-
-def make_model(data, CLASS):
-    pair_plot = sns.pairplot(data, hue="Species",  palette="husl", diag_kind='hist')
-    X_VARIABLES=['Culmen Length (mm)', 'Culmen Depth (mm)'] # Spiele mit unterschiedlichen Variablen
-    Y_VARIABLE='Species'
-    data = preprocess_data(data, X_VARIABLES, Y_VARIABLE='Species')
-    # split in train dataset and test dataset  
+  
+    
+class data:
+  def __init__(self, df, CLASS, X_VARIABLES, Y_VARIABLE):
+    self.df = self.preprocess_df(df, X_VARIABLES, Y_VARIABLE)
+    self.CLASS = CLASS
+    self.X_VARIABLES = X_VARIABLES
+    self.Y_VARIABLE = Y_VARIABLE
     seed = 1
-    data_train, data_test = train_test_split(data, random_state=seed)
-    #conversion to numpy arrays and selection of species
-    X = np.array(data[X_VARIABLES])
-    y = np.array(data[Y_VARIABLE] == CLASS)
-
-    X_train = np.array(data_train[X_VARIABLES])   
-    y_train = np.array(data_train[Y_VARIABLE] == CLASS)
-
-    X_test = np.array(data_test[X_VARIABLES])
-    y_test = np.array(data_test[Y_VARIABLE] == CLASS)
-
-    print(f'{X_train.shape} training samples; {X_test.shape} test samples;')
+    self.df_train, self.df_test = train_test_split(self.df, random_state=seed)
+    self.X = np.array(self.df[X_VARIABLES])
+    self.y = np.array(self.df[Y_VARIABLE] == CLASS)
+    self.X_train = np.array(self.df_train[X_VARIABLES])   
+    self.y_train = np.array(self.df_train[Y_VARIABLE] == CLASS)
+    self.X_test = np.array(self.df_test[X_VARIABLES])
+    self.y_test = np.array(self.df_test[Y_VARIABLE] == CLASS)
     
-    plot_features(X_train, X_test, y_train, y_test, X_VARIABLES[0], X_VARIABLES[1])
+  def preprocess_df(self, df, X_VARIABLES, Y_VARIABLE):
+    df = df.dropna(subset=X_VARIABLES)
+    return df
     
-    logr = LogisticRegression()
-    logr.fit(X_train,y_train)
+class model:
+    def __init__(self, data):
+        self.logr = self.make_model(data)
+        self.y_pred_train = self.logr.predict(data.X_train)
+        self.y_pred_test = self.logr.predict(data.X_test)
+        
+    def make_model(self, data):
+        self.logr = LogisticRegression()
+        self.logr.fit(data.X_train,data.y_train) 
+        return self.logr
     
-    # Vorhersagen der Trainings- und Testdaten mittels dem trainierten Modell
-    y_pred_train = logr.predict(X_train)
-    y_pred_test = logr.predict(X_test)
-    
-    plot_decision_regions(X, y, logr)
-    
-   
-    return logr, X_train, X_test, y_train, y_test, y_pred_train, y_pred_test
     
     
 
 if __name__ == "__main__":
-    data = pd.read_csv('data/penguins.csv')
-    CLASS = data.Species.unique()[0] # 0: Adelie
-    logr, X_train, X_test, y_train, y_test, y_pred_train, y_pred_test = make_model(data, CLASS)
-    # Evaluation Trainingsdaten
+    #select data
+    df = pd.read_csv('data/penguins.csv')
+    CLASS = df.Species.unique()[0] # 0: Adelie
+    X_VARIABLES=['Culmen Length (mm)', 'Culmen Depth (mm)'] # Spiele mit unterschiedlichen Variablen
+    Y_VARIABLE='Species'
+    data=data(df, CLASS, X_VARIABLES, Y_VARIABLE)
+    
+    #Plot data
+    print(f'{data.X_train.shape} training samples; {data.X_test.shape} test samples;')
+    plot_features(data.X_train, data.X_test, data.y_train, data.y_test, X_VARIABLES[0], X_VARIABLES[1])
+    
+    #Make model
+    model=model(data)
+    
+    #Check model
+    plot_decision_regions(data.X, data.y, model.logr)
+    # evaluate training data
     print('Train')
-    print_confusion_matrix(y_train, y_pred_train)
-    show_confusion_matrix(X_train, y_train, y_pred_train, logr)
+    print_confusion_matrix(data.y_train, model.y_pred_train)
+    show_confusion_matrix(data.X_train, data.y_train, model.y_pred_train, model.logr)
     print('Test')
-    # Evaluation Testdaten
-    print_confusion_matrix(y_test, y_pred_test)
-    show_confusion_matrix(X_test, y_test, y_pred_test, logr)
+    # Evaluate test data
+    print_confusion_matrix(data.y_test, model.y_pred_test)
+    show_confusion_matrix(data.X_test, data.y_test, model.y_pred_test, model.logr)
+    
+    
+    
