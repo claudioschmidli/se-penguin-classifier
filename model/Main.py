@@ -12,6 +12,7 @@ from matplotlib.colors import ListedColormap
 from sklearn import metrics
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import plot_confusion_matrix
+import pickle
 
 #Set constants
 plt.style.use('seaborn-muted')
@@ -147,6 +148,11 @@ if __name__ == "__main__":
     
     #Make model
     model=model(data)
+
+    #Save model to disk
+    pickle.dump(model.logr, open('model.pkl','wb'))
+    #Load model
+    #model = pickle.load(open('model.pkl', 'rb'))
     
     #Check model
     plot_decision_regions(data.X, data.y, model.logr)
