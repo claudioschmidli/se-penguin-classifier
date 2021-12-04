@@ -10,7 +10,7 @@ stages:
 
 install-modules:
   stage: build
-  image: python:3.8
+#  image: python:3.8
   script:
     - echo "install modules"
     - pip3 install pipenv
