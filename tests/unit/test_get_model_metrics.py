@@ -17,6 +17,11 @@ def initialize():
 
 
 def get_testdata() -> list:
+    """Loads the test data for this pytest test from a pickle file.
+
+    Returns:
+        list: List of tuples  for each test case
+    """
     test_data_path = os.path.join(currentdir, "testdata", "get_model_metrics.pkl")
     testdata = pickle.load(open(test_data_path, "rb"))
     # save all test cases in a dictionary and return it
@@ -33,6 +38,11 @@ def get_testdata() -> list:
 
 
 def test_get_model_metrics(testparameters):
+    """Pytest test for the function get_model_metrics. Raisses an AssertionError if test fails.
+
+    Args:
+        testparameters (tuple): First item y_tain, second item y_pred_train and third irem dictionary containing expected output.
+    """
     y_train = testparameters[0]
     y_pred_train = testparameters[1]
     expectation = testparameters[2]
@@ -40,6 +50,12 @@ def test_get_model_metrics(testparameters):
 
 
 def pytest_generate_tests(metafunc):
+    """Loads the test data using the function get_testdata() and parametrizes the data for the pytest test.
+
+    Args:
+        metafunc ([type? Wie kann ich das rausfinden??]):
+    """
+
     if "testparameters" in metafunc.fixturenames:
         testdata = get_testdata()
         metafunc.parametrize("testparameters", testdata)
