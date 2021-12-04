@@ -12,7 +12,8 @@ install-modules:
   stage: build
   script:
     - echo "install modules"
-    - apt-get install python3-venv
+    - apt-get update
+    - apt-get install python3-virtualenv
     - python3 -m venv pyenv
     - source pyenv/bin/activate
     - pip install -r requirements.txt
