@@ -15,3 +15,8 @@ install-modules:
     - echo "install modules"
     - pip3 install pipenv
     - pip3 install -r requirements.txt
+unit-tests:
+  stage: test
+  script:
+    - echo "unit testing"
+    - pytest
