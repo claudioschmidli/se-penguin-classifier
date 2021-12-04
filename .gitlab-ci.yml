@@ -13,7 +13,7 @@ install-modules:
   script:
     - echo "install modules"
     - apt-get update
-    - apt-get install python3-virtualenv
+    - yes | apt-get install python3-virtualenv
     - python3 -m venv pyenv
     - source pyenv/bin/activate
     - pip install -r requirements.txt
