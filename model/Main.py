@@ -235,7 +235,7 @@ class model:
 
 if __name__ == "__main__":
     # select data
-    df = pd.read_csv("model/data/penguins.csv")
+    df = pd.read_csv("data/penguins.csv")
 
     # Define dataset features and filter dataset by class
     CLASS = df.Species.unique()[0]  # 0: Adelie
