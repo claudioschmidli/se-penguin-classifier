@@ -1,5 +1,21 @@
 # App for classifying penguins
 ###SE Project by   Claudio Schmidli and Andrea Siedmann
+
+
+## To do's:
+- [x] Create model
+- [x] Build API
+- [x] Create git repository and share it on Gitlab
+- [x] Add pre-commit hooks
+- [x] CI pipline
+- [ ] Add unit tests for all more functions => Claudio
+- [ ] Implement logging => Andrea
+- [ ] Implement TOX => Andrea
+- [ ] Full documentation in readme.md => Claudio
+- [ ] Code formating (doc strings, type hinting, object oriented programming) => Andrea
+- [ ] Deploy model
+- [ ] Add delight to the experience when all tasks are complete :tada:
+
 ToDo: Project Description
 You can find a detailed description of the penguins dataset [here] (https://www.kaggle.com/parulpandey/penguin-dataset-the-new-iris)
 
@@ -93,4 +109,3 @@ For open source projects, say how it is licensed.
 
 ## Project status
 If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
-
