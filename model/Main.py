@@ -9,6 +9,7 @@ from sklearn.model_selection import train_test_split
 from sklearn import metrics
 from sklearn.metrics import ConfusionMatrixDisplay
 import pickle
+import os
 
 
 def plot_features(
@@ -156,15 +157,15 @@ def show_confusion_matrix(
     return matrix
 
 
-class data:
+class Data:
     """Class containg all dataset related data."""
 
     def __init__(
         self,
         df: pd.DataFrame,
         CLASS: str,
-        X_VARIABLES: np.ndarray,
-        Y_VARIABLE: np.ndarray,
+        X_VARIABLES: list,
+        Y_VARIABLE: str,
     ):
         """Constructor filtering the data by CLASS and splitting the dataset into test and training set.
 
@@ -188,7 +189,7 @@ class data:
         self.y_test = np.array(self.df_test[Y_VARIABLE] == CLASS)
 
     def preprocess_df(
-        self, df: pd.DataFrame, X_VARIABLES: np.ndarray, Y_VARIABLE: np.ndarray
+        self, df: pd.DataFrame, X_VARIABLES: list, Y_VARIABLE: str
     ) -> pd.DataFrame:
         """Function removing rows containg na in the dataset.
 
@@ -204,10 +205,10 @@ class data:
         return df
 
 
-class model:
+class Model:
     """Class containg all model related data"""
 
-    def __init__(self, data: data) -> None:
+    def __init__(self, data: Data) -> None:
         """Constructor assigning the model data to the class instance.
 
         Args:
@@ -218,7 +219,7 @@ class model:
         self.y_pred_test = self.logr.predict(data.X_test)
 
     def make_model(
-        self, data: data
+        self, data: Data
     ) -> sklearn.linear_model._logistic.LogisticRegression:
         """Creatung a model from the given data.
 
@@ -235,7 +236,9 @@ class model:
 
 if __name__ == "__main__":
     # select data
-    df = pd.read_csv("data/penguins.csv")
+    CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+    DATA_PATH = os.path.join(CURRENT_DIR, "data/penguins.csv")
+    df = pd.read_csv(DATA_PATH)
 
     # Define dataset features and filter dataset by class
     CLASS = df.Species.unique()[0]  # 0: Adelie
@@ -244,7 +247,7 @@ if __name__ == "__main__":
         "Culmen Depth (mm)",
     ]  # Spiele mit unterschiedlichen Variablen
     Y_VARIABLE = "Species"
-    data = data(df, CLASS, X_VARIABLES, Y_VARIABLE)
+    data = Data(df, CLASS, X_VARIABLES, Y_VARIABLE)
 
     # Plot data
     print(
@@ -260,7 +263,7 @@ if __name__ == "__main__":
     )
 
     # Make model
-    model = model(data)
+    model = Model(data)
 
     # Save model to disk
     pickle.dump(model.logr, open("model.pkl", "wb"))
@@ -287,3 +290,4 @@ if __name__ == "__main__":
         print(f"{key}: {value}")
     show_confusion_matrix(data.X_test, data.y_test, model.y_pred_test, model.logr)
     # plt.show()
+    # reveal_type(model.logr)

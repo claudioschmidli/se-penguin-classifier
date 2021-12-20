@@ -5,10 +5,10 @@ import pickle
 import logging
 import os
 
-currentdir = os.path.dirname(os.path.realpath(__file__))
-model_path = os.path.join(currentdir, "../../model/model.pkl")
+CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+MODEL_PATH = os.path.join(CURRENT_DIR, "../../model/model.pkl")
 app = Flask(__name__)
-model = pickle.load(open(model_path, "rb"))
+model = pickle.load(open(MODEL_PATH, "rb"))
 
 # setup logging
 logging.basicConfig(filename="error.log", level=logging.ERROR)
