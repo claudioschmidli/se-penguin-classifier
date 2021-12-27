@@ -29,8 +29,8 @@ def get_testdata() -> list:
     for i in range(0, 3):
         testdata_parametrized.append(
             (
-                testdata[i]["data"].y_train,
-                testdata[i]["model"].y_pred_train,
+                testdata[i]["data"].y_test,
+                testdata[i]["model"].y_pred_test,
                 testdata[i]["metrics"],
             )
         )
@@ -43,10 +43,10 @@ def test_get_model_metrics(testparameters):
     Args:
         testparameters (tuple): First item y_tain, second item y_pred_train and third irem dictionary containing expected output.
     """
-    y_train = testparameters[0]
-    y_pred_train = testparameters[1]
+    y_test = testparameters[0]
+    y_pred_test = testparameters[1]
     expectation = testparameters[2]
-    assert Main.get_model_metrics(y_train, y_pred_train) == expectation
+    assert Main.get_model_metrics(y_test, y_pred_test) == expectation
 
 
 def pytest_generate_tests(metafunc):
@@ -59,10 +59,3 @@ def pytest_generate_tests(metafunc):
     if "testparameters" in metafunc.fixturenames:
         testdata = get_testdata()
         metafunc.parametrize("testparameters", testdata)
-
-
-# @pytest.mark.parametrize("a,b,expected", [(1,1,0), ])
-# class Template:
-#    def subtraction(self, initialize, a, b, expected):
-#        diff = a - b
-#        assert diff == expected

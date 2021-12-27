@@ -238,6 +238,7 @@ if __name__ == "__main__":
     # select data
     CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
     DATA_PATH = os.path.join(CURRENT_DIR, "data/penguins.csv")
+    MODEL_PATH = os.path.join(CURRENT_DIR, "data/model.pkl")
     df = pd.read_csv(DATA_PATH)
 
     # Define dataset features and filter dataset by class
@@ -266,7 +267,7 @@ if __name__ == "__main__":
     model = Model(data)
 
     # Save model to disk
-    pickle.dump(model.logr, open("model.pkl", "wb"))
+    pickle.dump(model.logr, open(MODEL_PATH, "wb"))
 
     # Load model
     # model = pickle.load(open('model.pkl', 'rb'))
@@ -290,4 +291,3 @@ if __name__ == "__main__":
         print(f"{key}: {value}")
     show_confusion_matrix(data.X_test, data.y_test, model.y_pred_test, model.logr)
     # plt.show()
-    # reveal_type(model.logr)

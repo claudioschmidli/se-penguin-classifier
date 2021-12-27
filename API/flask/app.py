@@ -6,7 +6,7 @@ import logging
 import os
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
-MODEL_PATH = os.path.join(CURRENT_DIR, "../../model/model.pkl")
+MODEL_PATH = os.path.join(CURRENT_DIR, "../../model/data/model.pkl")
 app = Flask(__name__)
 model = pickle.load(open(MODEL_PATH, "rb"))
 
