@@ -1,9 +1,10 @@
-# Import modules
-import numpy as np
-from flask import Flask, request, render_template
-import pickle
+"""Flask app for pengiin classification."""
 import logging
 import os
+import pickle
+
+import numpy as np
+from flask import Flask, render_template, request
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 MODEL_PATH = os.path.join(CURRENT_DIR, "../../model/data/model.pkl")
@@ -16,15 +17,21 @@ logging.basicConfig(filename="error.log", level=logging.ERROR)
 
 @app.route("/")
 def home():
+    """Render HTML string for landing page of the app.
+
+    Returns:
+        str: String with HTML code containing the landing page for the app.
+    """
     return render_template("inputFeatures.html")
 
 
 @app.route("/predict", methods=["POST"])
-def predict():
-    """
-    For rendering results on HTML GUI
-    """
+def predict() -> str:
+    """Predict pengiun species and return reuslt as html.
 
+    Returns:
+        str: Result represented as HTML string that can be displayed in a browser.
+    """
     try:
         float_features = [float(x) for x in request.form.values()]
     except ValueError:

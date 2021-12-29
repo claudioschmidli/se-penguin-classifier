@@ -11,8 +11,9 @@ install-modules:
   stage: test
   image: python:3.8
   script:
-    - echo "install modules"
-    - pip3 install pipenv
-    - pip3 install -r requirements.txt
-    - echo "unit testing"
-    - pytest
+    - tox
+    #- echo "install modules"
+    #- pip3 install pipenv
+    #- pip3 install -r requirements.txt
+    #- echo "unit testing"
+    #- pytest

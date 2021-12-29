@@ -1,6 +1,9 @@
+"""Create data for test_get_model_metrics()."""
+
 import os
-import sys
 import pickle
+import sys
+
 import pandas as pd
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -10,7 +13,7 @@ from model import Main  # noqa: E402
 
 
 def create_pytest_data():
-    """Creates test data for unit testing with pytest."""
+    """Create test data for unit testing with pytest."""
     testdata = {}
     for i in range(0, 3):
         df = pd.read_csv("model/data/penguins.csv")
