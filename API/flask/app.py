@@ -1,15 +1,19 @@
-# Import modules
-import numpy as np
-from flask import Flask, request, render_template
-import pickle
+"""Flask app for pengiin classification."""
 import logging
+import os
+import pickle
+
+import numpy as np
+from flask import Flask, render_template, request
+
+CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+MODEL_PATH = os.path.join(CURRENT_DIR, "../../model/data/model.pkl")
+app = Flask(__name__)
+model = pickle.load(open(MODEL_PATH, "rb"))
 
 # setup logging
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename="error.log", level=logging.ERROR)
-
-app = Flask(__name__)
-model = pickle.load(open("../../model/model.pkl", "rb"))
 
 
 @app.route("/")
