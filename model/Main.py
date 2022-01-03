@@ -1,14 +1,16 @@
-# -*- coding: utf-8 -*-
+"""Functions and classes for creating a linear penguin classification model."""
+import os
+import pickle
+
 import numpy as np
 import pandas as pd
+import sklearn.linear_model
 from matplotlib import pyplot as plt
 from matplotlib.colors import ListedColormap
-import sklearn.linear_model
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
 from sklearn import metrics
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import ConfusionMatrixDisplay
-import pickle
+from sklearn.model_selection import train_test_split
 
 
 def plot_features(
@@ -19,8 +21,9 @@ def plot_features(
     feature1: str,
     feature2: str,
 ) -> sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay:
-    """Creates a scatter plot of the culmen length and culmen depth for each data point.
-    The body colors are set by the predictions, the edge colors by test/train data set.
+    """Create a scatter plot of the culmen length and culmen depth for each data point.
+
+    Set the body colors by the predictions and the edge colors by test/train data set.
 
     Args:
         X_train (np.ndarray): Numpy array containing two features.
@@ -48,7 +51,7 @@ def plot_decision_regions(
     classifier: sklearn.linear_model._logistic.LogisticRegression,
     resolution: float = 0.02,
 ) -> sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay:
-    """Creates a scatter plot of the data set and adds the found decision bounndary to it.
+    """Create a scatter plot of the data set and add the found decision bounndary to it.
 
     Args:
         X (np.ndarray): Numpy array containing two features.
@@ -96,7 +99,7 @@ def plot_decision_regions(
 
 
 def get_model_metrics(y: np.ndarray, y_pred: np.ndarray) -> dict:
-    """Function calculation the model petrics by comparing labeled and predicted data.
+    """Calculate the model metrics by comparing labeled and predicted data.
 
     Args:
         y (np.ndarray): Numpy array filled with lables (true and false booleans).
@@ -134,7 +137,7 @@ def show_confusion_matrix(
     y_pred: np.ndarray,
     clf: sklearn.linear_model._logistic.LogisticRegression,
 ) -> sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay:
-    """Plots confusion matrix.
+    """Plot confusion matrix.
 
     Args:
         X (np.ndarray): Numpy array containing two features.
@@ -156,17 +159,17 @@ def show_confusion_matrix(
     return matrix
 
 
-class data:
+class Data:
     """Class containg all dataset related data."""
 
     def __init__(
         self,
         df: pd.DataFrame,
         CLASS: str,
-        X_VARIABLES: np.ndarray,
-        Y_VARIABLE: np.ndarray,
+        X_VARIABLES: list,
+        Y_VARIABLE: str,
     ):
-        """Constructor filtering the data by CLASS and splitting the dataset into test and training set.
+        """Filter the data by CLASS and split the dataset into test and training set.
 
         Args:
             df (pd.DataFrame): Pandas datadrame
@@ -188,9 +191,9 @@ class data:
         self.y_test = np.array(self.df_test[Y_VARIABLE] == CLASS)
 
     def preprocess_df(
-        self, df: pd.DataFrame, X_VARIABLES: np.ndarray, Y_VARIABLE: np.ndarray
+        self, df: pd.DataFrame, X_VARIABLES: list, Y_VARIABLE: str
     ) -> pd.DataFrame:
-        """Function removing rows containg na in the dataset.
+        """Remove rows containg na in the dataset.
 
         Args:
             df (pd.DataFrame): Pandas dataframe
@@ -204,11 +207,11 @@ class data:
         return df
 
 
-class model:
-    """Class containg all model related data"""
+class Model:
+    """Class containg all model related data."""
 
-    def __init__(self, data: data) -> None:
-        """Constructor assigning the model data to the class instance.
+    def __init__(self, data: Data) -> None:
+        """Assign the model data to the class instance.
 
         Args:
             data (data): Data object containg the data. See data class for more information.
@@ -218,7 +221,7 @@ class model:
         self.y_pred_test = self.logr.predict(data.X_test)
 
     def make_model(
-        self, data: data
+        self, data: Data
     ) -> sklearn.linear_model._logistic.LogisticRegression:
         """Creatung a model from the given data.
 
@@ -235,7 +238,10 @@ class model:
 
 if __name__ == "__main__":
     # select data
-    df = pd.read_csv("data/penguins.csv")
+    CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+    DATA_PATH = os.path.join(CURRENT_DIR, "data/penguins.csv")
+    MODEL_PATH = os.path.join(CURRENT_DIR, "data/model.pkl")
+    df = pd.read_csv(DATA_PATH)
 
     # Define dataset features and filter dataset by class
     CLASS = df.Species.unique()[0]  # 0: Adelie
@@ -244,7 +250,7 @@ if __name__ == "__main__":
         "Culmen Depth (mm)",
     ]  # Spiele mit unterschiedlichen Variablen
     Y_VARIABLE = "Species"
-    data = data(df, CLASS, X_VARIABLES, Y_VARIABLE)
+    data = Data(df, CLASS, X_VARIABLES, Y_VARIABLE)
 
     # Plot data
     print(
@@ -260,10 +266,10 @@ if __name__ == "__main__":
     )
 
     # Make model
-    model = model(data)
+    model = Model(data)
 
     # Save model to disk
-    pickle.dump(model.logr, open("model.pkl", "wb"))
+    pickle.dump(model.logr, open(MODEL_PATH, "wb"))
 
     # Check model
     fig, ax = plot_decision_regions(data.X, data.y, model.logr)
