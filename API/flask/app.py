@@ -4,12 +4,12 @@ from flask import Flask, request, render_template
 import pickle
 import logging
 
+# setup logging
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename="error.log", level=logging.ERROR)
 
 app = Flask(__name__)
 model = pickle.load(open("../../model/model.pkl", "rb"))
-
-# setup logging
-logging.basicConfig(filename="error.log", level=logging.ERROR)
 
 
 @app.route("/")
@@ -26,7 +26,7 @@ def predict():
     try:
         float_features = [float(x) for x in request.form.values()]
     except ValueError:
-        app.logger.info("A error happend", exc_info=True)
+        logger.error("A error happend", exc_info=True)
         error_Message = "bitte Masse mit Gleitkommazahlen definieren"
         return render_template("inputFeatures.html", prediction_text=error_Message)
     print("features", float_features)
@@ -42,4 +42,4 @@ def predict():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

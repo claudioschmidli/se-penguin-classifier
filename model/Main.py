@@ -265,9 +265,6 @@ if __name__ == "__main__":
     # Save model to disk
     pickle.dump(model.logr, open("model.pkl", "wb"))
 
-    # Load model
-    # model = pickle.load(open('model.pkl', 'rb'))
-
     # Check model
     fig, ax = plot_decision_regions(data.X, data.y, model.logr)
 
