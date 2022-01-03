@@ -1,6 +1,4 @@
 """Unit test for the function get_model_metrics() in the module."""
-# @ Tipi: This is a alternative approach we used for testing. Please also have a look at the other tests.
-
 import os
 import pickle
 import sys

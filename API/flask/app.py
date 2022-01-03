@@ -30,7 +30,7 @@ def predict():
     try:
         float_features = [float(x) for x in request.form.values()]
     except ValueError:
-        logger.error("A error happend", exc_info=True)
+        app.logger.error("A error happend", exc_info=True)
         error_Message = "bitte Masse mit Gleitkommazahlen definieren"
         return render_template("inputFeatures.html", prediction_text=error_Message)
     print("features", float_features)
