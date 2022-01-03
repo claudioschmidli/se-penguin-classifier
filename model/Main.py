@@ -106,7 +106,7 @@ def get_model_metrics(y: np.ndarray, y_pred: np.ndarray) -> dict:
         y_pred (np.ndarray): Numpy array filled with predictions (true and false booleans).
 
     Returns:
-        dict: Dictonary containg different metrics.
+        dict: Dictonary containing different metrics.
     """
     matrix = metrics.confusion_matrix(y, y_pred)
     model_metrics = {}
@@ -160,7 +160,7 @@ def show_confusion_matrix(
 
 
 class Data:
-    """Class containg all dataset related data."""
+    """Class containing all dataset related data."""
 
     def __init__(
         self,
@@ -175,7 +175,7 @@ class Data:
             df (pd.DataFrame): Pandas datadrame
             CLASS (str): String describing the penguin class
             X_VARIABLES (np.ndarray): Matrix containing selected features to be evaluated
-            Y_VARIABLE (np.ndarray): Array containg labels (true, false).
+            Y_VARIABLE (np.ndarray): Array containing labels (true, false).
         """
         self.df = self.preprocess_df(df, X_VARIABLES, Y_VARIABLE)
         self.CLASS = CLASS
@@ -193,12 +193,12 @@ class Data:
     def preprocess_df(
         self, df: pd.DataFrame, X_VARIABLES: list, Y_VARIABLE: str
     ) -> pd.DataFrame:
-        """Remove rows containg na in the dataset.
+        """Remove rows containing na in the dataset.
 
         Args:
             df (pd.DataFrame): Pandas dataframe
             X_VARIABLES (np.ndarray): Matrix containing dataset features to be evaluated
-            Y_VARIABLE (np.ndarray): Array containg dataset labels (true, false)
+            Y_VARIABLE (np.ndarray): Array containing dataset labels (true, false)
 
         Returns:
             pd.DataFrame: Filtered pandas dataframe without na values.
@@ -208,13 +208,13 @@ class Data:
 
 
 class Model:
-    """Class containg all model related data."""
+    """Class containing all model related data."""
 
     def __init__(self, data: Data) -> None:
         """Assign the model data to the class instance.
 
         Args:
-            data (data): Data object containg the data. See data class for more information.
+            data (data): Data object containing the data. See data class for more information.
         """
         self.logr = self.make_model(data)
         self.y_pred_train = self.logr.predict(data.X_train)
@@ -226,7 +226,7 @@ class Model:
         """Creatung a model from the given data.
 
         Args:
-            data (data): Data object containg the data. See data class for more information.
+            data (data): Data object containing the data. See data class for more information.
 
         Returns:
             sklearn.linear_model._logistic.LogisticRegression: Linear model from sklearn.

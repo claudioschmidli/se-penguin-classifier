@@ -5,9 +5,9 @@ import os
 import pickle
 import sys
 
-currentdir = os.path.dirname(os.path.realpath(__file__))
-parentdir = os.path.dirname(os.path.dirname(currentdir))
-sys.path.append(parentdir)
+CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+PARENT_DIR = os.path.dirname(os.path.dirname(CURRENT_DIR))
+sys.path.append(PARENT_DIR)
 from model import Main  # noqa: E402
 
 
@@ -17,7 +17,7 @@ def get_testdata() -> list:
     Returns:
         list: List of tuples  for each test case
     """
-    test_data_path = os.path.join(currentdir, "testdata", "get_model_metrics.pkl")
+    test_data_path = os.path.join(CURRENT_DIR, "testdata", "get_model_metrics.pkl")
     testdata = pickle.load(open(test_data_path, "rb"))
     # save all test cases in a dictionary and return it
     testdata_parametrized = []

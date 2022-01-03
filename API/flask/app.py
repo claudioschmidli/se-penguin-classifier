@@ -1,4 +1,4 @@
-"""Flask app for pengiin classification."""
+"""Flask app for penguin classification."""
 import logging
 import os
 import pickle
@@ -36,11 +36,11 @@ def predict() -> str:
     try:
         float_features = [float(x) for x in request.form.values()]
     except ValueError:
-        app.logger.error("A error happend", exc_info=True)
+        logger.error("A error happend", exc_info=True)
         error_Message = "bitte Masse mit Gleitkommazahlen definieren"
         return render_template("inputFeatures.html", prediction_text=error_Message)
 
-    app.logger.info("features", float_features, exc_info=True)
+    logger.info("features", float_features, exc_info=True)
 
     # print("features", float_features)
     features = [np.array(float_features)]
