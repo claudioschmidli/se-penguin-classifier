@@ -13,7 +13,9 @@ model = pickle.load(open(MODEL_PATH, "rb"))
 
 # setup logging
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename="error.log", level=logging.ERROR)
+logger.setLevel(logging.ERROR)
+handler = logging.FileHandler("error.log")
+logger.addHandler(handler)
 
 
 @app.route("/")
@@ -28,7 +30,7 @@ def home():
 
 @app.route("/predict", methods=["POST"])
 def predict() -> str:
-    """Predict pengiun species and return reuslt as html.
+    """Predict pengiun species and return the result as html.
 
     Returns:
         str: Result represented as HTML string that can be displayed in a browser.
@@ -40,12 +42,10 @@ def predict() -> str:
         error_Message = "bitte Masse mit Gleitkommazahlen definieren"
         return render_template("inputFeatures.html", prediction_text=error_Message)
 
-    logger.info("features", float_features, exc_info=True)
+    # logger.info(f"Features: Culmen length: {float_features[0]} mm, Culmen depth: {float_features[1]} mm")
 
-    # print("features", float_features)
     features = [np.array(float_features)]
 
-    # print("features1", features)
     prediction = model.predict(features)
 
     output = f"""

@@ -1,5 +1,4 @@
 """Create data for test_get_model_metrics()."""
-
 import os
 import pickle
 import sys

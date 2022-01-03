@@ -1,4 +1,4 @@
-"""Functions and classes for creating a linear penguin classification model."""
+"""Functions and classes for creating a linear model for penguin classification."""
 import os
 import pickle
 
@@ -57,7 +57,7 @@ def plot_decision_regions(
         X (np.ndarray): Numpy array containing two features.
         y (np.ndarray): Numpy array filled with predictions (true and false booleans).
         classifier (sklearn.linear_model._logistic.LogisticRegression): Liner model from sklearn.
-        resolution (float, optional): Resultion of the plotted decision boundary. Defaults to 0.02.
+        resolution (float, optional): Resolution of the plotted decision boundary. Defaults to 0.02.
 
     Returns:
         sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay: Matplot fig object.
@@ -102,11 +102,11 @@ def get_model_metrics(y: np.ndarray, y_pred: np.ndarray) -> dict:
     """Calculate the model metrics by comparing labeled and predicted data.
 
     Args:
-        y (np.ndarray): Numpy array filled with lables (true and false booleans).
+        y (np.ndarray): Numpy array filled with labels (true and false booleans).
         y_pred (np.ndarray): Numpy array filled with predictions (true and false booleans).
 
     Returns:
-        dict: Dictonary containing different metrics.
+        dict: Dictionary containing different metrics.
     """
     matrix = metrics.confusion_matrix(y, y_pred)
     model_metrics = {}
@@ -134,7 +134,6 @@ def get_model_metrics(y: np.ndarray, y_pred: np.ndarray) -> dict:
 def show_confusion_matrix(
     X: np.ndarray,
     y: np.ndarray,
-    y_pred: np.ndarray,
     clf: sklearn.linear_model._logistic.LogisticRegression,
 ) -> sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay:
     """Plot confusion matrix.
@@ -142,7 +141,6 @@ def show_confusion_matrix(
     Args:
         X (np.ndarray): Numpy array containing two features.
         y (np.ndarray): Numpy array filled with labels (true and false booleans).
-        y_pred (np.ndarray): Numpy array filled with predictions (true and false booleans).
         clf (sklearn.linear_model._logistic.LogisticRegression): Liner model from sklearn.
 
     Returns:
@@ -172,12 +170,12 @@ class Data:
         """Filter the data by CLASS and split the dataset into test and training set.
 
         Args:
-            df (pd.DataFrame): Pandas datadrame
-            CLASS (str): String describing the penguin class
-            X_VARIABLES (np.ndarray): Matrix containing selected features to be evaluated
+            df (pd.DataFrame): Pandas dataframe.
+            CLASS (str): String describing the penguin class.
+            X_VARIABLES (np.ndarray): Matrix containing selected features to be evaluated.
             Y_VARIABLE (np.ndarray): Array containing labels (true, false).
         """
-        self.df = self.preprocess_df(df, X_VARIABLES, Y_VARIABLE)
+        self.df = self.preprocess_df(df, X_VARIABLES)
         self.CLASS = CLASS
         self.X_VARIABLES = X_VARIABLES
         self.Y_VARIABLE = Y_VARIABLE
@@ -191,14 +189,16 @@ class Data:
         self.y_test = np.array(self.df_test[Y_VARIABLE] == CLASS)
 
     def preprocess_df(
-        self, df: pd.DataFrame, X_VARIABLES: list, Y_VARIABLE: str
+        self,
+        df: pd.DataFrame,
+        X_VARIABLES: list,
     ) -> pd.DataFrame:
         """Remove rows containing na in the dataset.
 
         Args:
-            df (pd.DataFrame): Pandas dataframe
-            X_VARIABLES (np.ndarray): Matrix containing dataset features to be evaluated
-            Y_VARIABLE (np.ndarray): Array containing dataset labels (true, false)
+            df (pd.DataFrame): Pandas dataframe.
+            X_VARIABLES (np.ndarray): Matrix containing dataset features to be evaluated.
+            Y_VARIABLE (np.ndarray): Array containing dataset labels (true, false).
 
         Returns:
             pd.DataFrame: Filtered pandas dataframe without na values.
@@ -214,19 +214,20 @@ class Model:
         """Assign the model data to the class instance.
 
         Args:
-            data (data): Data object containing the data. See data class for more information.
+            data (Data): Data object containing the data. See Data class for more information.
         """
         self.logr = self.make_model(data)
         self.y_pred_train = self.logr.predict(data.X_train)
         self.y_pred_test = self.logr.predict(data.X_test)
 
     def make_model(
-        self, data: Data
+        self,
+        data: Data,
     ) -> sklearn.linear_model._logistic.LogisticRegression:
-        """Creatung a model from the given data.
+        """Create a model from the given data.
 
         Args:
-            data (data): Data object containing the data. See data class for more information.
+            data (Data): Data object containing the data. See Data class for more information.
 
         Returns:
             sklearn.linear_model._logistic.LogisticRegression: Linear model from sklearn.
@@ -243,12 +244,12 @@ if __name__ == "__main__":
     MODEL_PATH = os.path.join(CURRENT_DIR, "data/model.pkl")
     df = pd.read_csv(DATA_PATH)
 
-    # Define dataset features and filter dataset by class
+    # Define dataset features and filter dataset by penguin class
     CLASS = df.Species.unique()[0]  # 0: Adelie
     X_VARIABLES = [
         "Culmen Length (mm)",
         "Culmen Depth (mm)",
-    ]  # Spiele mit unterschiedlichen Variablen
+    ]  # you can choose here different physical dimensions
     Y_VARIABLE = "Species"
     data = Data(df, CLASS, X_VARIABLES, Y_VARIABLE)
 
@@ -279,14 +280,12 @@ if __name__ == "__main__":
     model_metrics = get_model_metrics(data.y_train, model.y_pred_train)
     for key, value in model_metrics.items():
         print(f"{key}: {value}")
-    fig = show_confusion_matrix(
-        data.X_train, data.y_train, model.y_pred_train, model.logr
-    )
+    fig = show_confusion_matrix(data.X_train, data.y_train, model.logr)
 
     # Evaluate test data
     print("\nModel metrics test data")
     model_metrics = get_model_metrics(data.y_test, model.y_pred_test)
     for key, value in model_metrics.items():
         print(f"{key}: {value}")
-    show_confusion_matrix(data.X_test, data.y_test, model.y_pred_test, model.logr)
+    show_confusion_matrix(data.X_test, data.y_test, model.logr)
     # plt.show()

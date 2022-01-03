@@ -32,11 +32,11 @@ def get_testdata() -> list:
     return testdata_parametrized
 
 
-def test_get_model_metrics(testparameters):
+def test_get_model_metrics(testparameters: list):
     """Test function get_model_metrics(). Raise an AssertionError if test fails.
 
     Args:
-        testparameters (tuple): First item y_tain, second item y_pred_train and third irem dictionary containing expected output.
+        testparameters (tuple): First item y_test, second item y_pred_test and third item dictionary containing expected output.
     """
     y_test = testparameters[0]
     y_pred_test = testparameters[1]
@@ -48,8 +48,11 @@ def pytest_generate_tests(metafunc):
     """Load the test data using the function get_testdata() and parametrize the data for the pytest test.
 
     Args:
-        metafunc ([type? Wie kann ich das rausfinden??]):
+        metafunc (Metafunc): Objects passed to the pytest_generate_tests hook, which help to inspect the test function and
+        to generate tests according to test configuration or values specified in the class or module where
+        the test function is defined.
     """
+    print(type(metafunc))
     if "testparameters" in metafunc.fixturenames:
         testdata = get_testdata()
         metafunc.parametrize("testparameters", testdata)
