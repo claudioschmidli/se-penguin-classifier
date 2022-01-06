@@ -1,5 +1,8 @@
 #Ignore Invironment files
 pyenv/
+#Ignore logs
+logs/
+*.log
 #Jupyther Notebooks
 **/*.ipynb
 #ignore Spyder files
@@ -7,5 +10,3 @@ pyenv/
 # Byte-compiled / optimized / DLL files
 __pycache__# Byte-compiled / optimized / DLL files
 __pycache__/
-#ignore log files
-*.log
