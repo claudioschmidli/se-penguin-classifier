@@ -9,103 +9,52 @@
 - [x] Add pre-commit hooks
 - [x] CI pipline
 - [ ] Add unit tests for all more functions => Claudio
-- [ ] Implement logging => Andrea
-- [ ] Implement TOX => Andrea
+- [x] Implement logging => Andrea
+- [x] Implement TOX => Andrea
 - [ ] Full documentation in readme.md => Claudio
-- [ ] Code formating (doc strings, type hinting, object oriented programming) => Andrea
+- [x] Code formating (doc strings, type hinting, object oriented programming) => Andrea
 - [ ] Deploy model
 - [ ] Add delight to the experience when all tasks are complete :tada:
 
-ToDo: Project Description
-You can find a detailed description of the penguins dataset [here] (https://www.kaggle.com/parulpandey/penguin-dataset-the-new-iris)
 
-ToDo: Installation
-------------------
-ToDo: e.g. download the projekt [here](..). In `requirements.txt` you can find, what python packages are required to run the project.
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://gitlab.com/-/experiment/new_project_readme_content:93d9b86823bb38937afd3a96077979fe?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://gitlab.com/-/experiment/new_project_readme_content:93d9b86823bb38937afd3a96077979fe?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://gitlab.com/-/experiment/new_project_readme_content:93d9b86823bb38937afd3a96077979fe?https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.com/claudio.schmidli/das-software-engineering-projektarbeit.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.com/-/experiment/new_project_readme_content:93d9b86823bb38937afd3a96077979fe?https://docs.gitlab.com/ee/user/project/integrations/)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://gitlab.com/-/experiment/new_project_readme_content:93d9b86823bb38937afd3a96077979fe?https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://gitlab.com/-/experiment/new_project_readme_content:93d9b86823bb38937afd3a96077979fe?https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://gitlab.com/-/experiment/new_project_readme_content:93d9b86823bb38937afd3a96077979fe?https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Automatically merge when pipeline succeeds](https://gitlab.com/-/experiment/new_project_readme_content:93d9b86823bb38937afd3a96077979fe?https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://gitlab.com/-/experiment/new_project_readme_content:93d9b86823bb38937afd3a96077979fe?https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://gitlab.com/-/experiment/new_project_readme_content:93d9b86823bb38937afd3a96077979fe?https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://gitlab.com/-/experiment/new_project_readme_content:93d9b86823bb38937afd3a96077979fe?https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://gitlab.com/-/experiment/new_project_readme_content:93d9b86823bb38937afd3a96077979fe?https://docs.gitlab.com/ee/user/clusters/agent/)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://gitlab.com/-/experiment/new_project_readme_content:93d9b86823bb38937afd3a96077979fe?https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
+### Penguin Species Predictor
+This repository contains the code and data for predicting the species membership of a penguin based on its specific characteristics, including testing, logging and an interface-based web application.
 
 ## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+The model used can predict whether or not a penguin belongs to a particular species based on its specific characteristics culmen length and depth. The default is the test for the species Adelie. The classification method of binary logistic regression is used for the prediction.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+A web application was programmed as the user interface.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+The application is programmed in Python. The web application is developed with Flask.
+The data source is a penguin dataset published on Kaggle with information on species affiliation (species: Chinstrap, Adélie or Gentoo) and certain body masses (culmen length and depth, flipper length, body mass, ...). You can find a detailed description of the penguins dataset [here] (https://www.kaggle.com/parulpandey/penguin-dataset-the-new-iris)
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+The project can be downloaded [here](https://gitlab.com/claudio.schmidli/das-software-engineering-projektarbeit). In `requirements.txt` you can find, what python packages are required to run the project.
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+## Authors
+Claudio Schmidli, Andrea Siedmann
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Procedure
+Search for a matching data set:
+    Criteria: Size, clarity, free availability, good description: decision for the penguin dataset from Kaggle
+Search for a suitable model:
+    Criteria: Classification model, not too complex, not too much computing power, descriptive results: binary linear regression
+Transfer of the model from Jupyter notebook
+Building a virtual environment
+Creating a Gitlab repository
+Creating the folder structure
+Creating the requirements.txt
+Decomposition into object-oriented functions and classes Modularisation
+Saving the model
+Unit tests added
+Pre-commit with black, autoflake, flake8 created
+Extension of functions with doc strings
+Gitlab pipeline created
+Created interface-based web application with Flask
+Extension with logging and exception handling
+Tox implemented
+Various code cleanings, test and logging extensions implemented
+ReadMe file completed
