@@ -8,7 +8,7 @@ import sys
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 PARENT_DIR = os.path.dirname(os.path.dirname(CURRENT_DIR))
 sys.path.append(PARENT_DIR)
-from model import Main  # noqa: E402
+from model import classifier  # noqa: E402
 
 
 def get_testdata() -> list:
@@ -41,7 +41,7 @@ def test_get_model_metrics(testparameters: list):
     y_test = testparameters[0]
     y_pred_test = testparameters[1]
     expectation = testparameters[2]
-    assert Main.get_model_metrics(y_test, y_pred_test) == expectation
+    assert classifier.get_model_metrics(y_test, y_pred_test) == expectation
 
 
 def pytest_generate_tests(metafunc):

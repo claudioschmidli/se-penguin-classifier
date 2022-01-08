@@ -1,19 +1,23 @@
 """Flask app for penguin classification."""
+import configparser
 import os
 import pickle
 from logging.config import dictConfig
 
 import numpy as np
+import sklearn.linear_model
 from flask import Flask, render_template, request
 
 
 def initialize_logging():
     """Initialize the logger for the app."""
-    LOGS_PATH = os.path.join(PARENT_DIR, "logs")
+    config = configparser.ConfigParser()
+    config.read(os.path.join(CURRENT_DIR, "config.ini"))
+    LOGS_PATH = config["LOGGING"]["LOGS_PATH"]
     if not os.path.exists(LOGS_PATH):
         os.mkdir(LOGS_PATH)
-    INFO_LOG_PATH = os.path.join(LOGS_PATH, "app_info.log")
-    ERROR_LOG_PATH = os.path.join(LOGS_PATH, "app_error.log")
+    INFO_LOG_PATH = config["LOGGING"]["INFO_LOG_FILE"]
+    ERROR_LOG_PATH = config["LOGGING"]["ERROR_LOG_FILE"]
 
     dictConfig(
         {
@@ -51,12 +55,23 @@ def initialize_logging():
     )
 
 
+def get_model() -> sklearn.linear_model._logistic.LogisticRegression:
+    """Load linear model for penguin classification from a pickle file.
+
+    Returns:
+        sklearn.linear_model._logistic.LogisticRegression: Linear model for penguin classification.
+    """
+    config = configparser.ConfigParser()
+    config.read(os.path.join(CURRENT_DIR, "config.ini"))
+    MODEL_PATH = config["CLASSIFICATION"]["MODEL_PATH"]
+    MODEL_PATH = os.path.join(CURRENT_DIR, MODEL_PATH)
+    model = pickle.load(open(MODEL_PATH, "rb"))
+    return model
+
+
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
-MODEL_PATH = os.path.join(CURRENT_DIR, "../../model/data/model.pkl")
-PARENT_DIR = os.path.dirname(os.path.dirname(CURRENT_DIR))
 initialize_logging()
 app = Flask(__name__)
-model = pickle.load(open(MODEL_PATH, "rb"))
 
 
 @app.route("/")
@@ -98,7 +113,8 @@ def predict() -> str:
     # logger.info(f"Features: Culmen length: {float_features[0]} mm, Culmen depth: {float_features[1]} mm")
 
     features = [np.array(float_features)]
-
+    model = get_model()
+    print(type(model))
     prediction = model.predict(features)
 
     if prediction[0]:

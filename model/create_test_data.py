@@ -8,7 +8,7 @@ import pandas as pd
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 PARRENT_DIR = os.path.dirname(CURRENT_DIR)
 sys.path.append(PARRENT_DIR)
-from model import Main  # noqa: E402
+from model import classifier  # noqa: E402
 
 
 def create_pytest_data():
@@ -22,9 +22,9 @@ def create_pytest_data():
             "Culmen Depth (mm)",
         ]
         Y_VARIABLE = "Species"
-        data = Main.Data(df, CLASS, X_VARIABLES, Y_VARIABLE)
-        model = Main.Model(data)
-        model_metrics = Main.get_model_metrics(data.y_test, model.y_pred_test)
+        data = classifier.Data(df, CLASS, X_VARIABLES, Y_VARIABLE)
+        model = classifier.Model(data)
+        model_metrics = classifier.get_model_metrics(data.y_test, model.y_pred_test)
         testcase = {
             "data": data,
             "model": model,
