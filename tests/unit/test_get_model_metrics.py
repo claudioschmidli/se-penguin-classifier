@@ -52,7 +52,6 @@ def pytest_generate_tests(metafunc):
         to generate tests according to test configuration or values specified in the class or module where
         the test function is defined.
     """
-    print(type(metafunc))
     if "testparameters" in metafunc.fixturenames:
         testdata = get_testdata()
         metafunc.parametrize("testparameters", testdata)
