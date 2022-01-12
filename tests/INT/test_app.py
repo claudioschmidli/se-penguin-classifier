@@ -6,12 +6,11 @@ from typing import Dict, Optional
 import pytest
 from flask import render_template
 
-from API.flask.app import app as flask_app
-from API.flask.app import render_result
-
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 PARENT_DIR = os.path.dirname(os.path.dirname(CURRENT_DIR))
 sys.path.append(PARENT_DIR)
+from API.flask.app import app as flask_app  # noqa: E402
+from API.flask.app import render_result  # noqa: E402
 
 
 def render_html(prediction_text: str) -> str:
