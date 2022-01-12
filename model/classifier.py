@@ -37,12 +37,12 @@ def plot_features(
         sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay: Matplot fig object.
         Use e.g. plt.show() after calling the function to show it.
     """
-    fig = plt.figure(figsize=(6, 6))
+    local_fig = plt.figure(figsize=(6, 6))
     plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, edgecolor="black")
     plt.scatter(X_test[:, 0], X_test[:, 1], c=y_test, edgecolor="red")
     plt.xlabel(feature1)
     plt.ylabel(feature2)
-    return fig
+    return local_fig
 
 
 def plot_decision_regions(
@@ -76,14 +76,14 @@ def plot_decision_regions(
     Z = classifier.predict(np.array([xx1.ravel(), xx2.ravel()]).T)
     Z = Z.reshape(xx1.shape)
 
-    fig, ax = plt.subplots(figsize=(6, 6))
-    ax.contourf(xx1, xx2, Z, alpha=0.4, cmap=cmap)
-    ax.set_xlim(xx1.min(), xx1.max())
-    ax.set_ylim(xx2.min(), xx2.max())
+    local_fig, local_ax = plt.subplots(figsize=(6, 6))
+    local_ax.contourf(xx1, xx2, Z, alpha=0.4, cmap=cmap)
+    local_ax.set_xlim(xx1.min(), xx1.max())
+    local_ax.set_ylim(xx2.min(), xx2.max())
 
     # plot all samples
     for idx, cl in enumerate(np.unique(y)):
-        ax.scatter(
+        local_ax.scatter(
             x=X[y == cl, 0],
             y=X[y == cl, 1],
             alpha=0.8,
@@ -93,9 +93,9 @@ def plot_decision_regions(
             edgecolor="none",
         )
 
-    _ = ax.set_ylabel("predicted (y)")
-    _ = ax.set_xlabel("input (x)")
-    return fig, ax
+    _ = local_ax.set_ylabel("predicted (y)")
+    _ = local_ax.set_xlabel("input (x)")
+    return local_fig, local_ax
 
 
 def get_model_metrics(y: np.ndarray, y_pred: np.ndarray) -> dict:
@@ -164,46 +164,46 @@ class Data:
         self,
         df: pd.DataFrame,
         CLASS: str,
-        X_VARIABLES: list,
-        Y_VARIABLE: str,
+        X_variables: list,
+        y_variables: str,
     ):
         """Filter the data by CLASS and split the dataset into test and training set.
 
         Args:
             df (pd.DataFrame): Pandas dataframe.
             CLASS (str): String describing the penguin class.
-            X_VARIABLES (np.ndarray): Matrix containing selected features to be evaluated.
-            Y_VARIABLE (np.ndarray): Array containing labels (true, false).
+            X_variables (np.ndarray): Matrix containing selected features to be evaluated.
+            y_variables (np.ndarray): Array containing labels (true, false).
         """
-        self.df = self.preprocess_df(df, X_VARIABLES)
+        self.df = self.preprocess_df(df, X_variables)
         self.CLASS = CLASS
-        self.X_VARIABLES = X_VARIABLES
-        self.Y_VARIABLE = Y_VARIABLE
+        self.X_variables = X_variables
+        self.y_variables = y_variables
         seed = 1
         self.df_train, self.df_test = train_test_split(self.df, random_state=seed)
-        self.X = np.array(self.df[X_VARIABLES])
-        self.y = np.array(self.df[Y_VARIABLE] == CLASS)
-        self.X_train = np.array(self.df_train[X_VARIABLES])
-        self.y_train = np.array(self.df_train[Y_VARIABLE] == CLASS)
-        self.X_test = np.array(self.df_test[X_VARIABLES])
-        self.y_test = np.array(self.df_test[Y_VARIABLE] == CLASS)
+        self.X = np.array(self.df[X_variables])
+        self.y = np.array(self.df[y_variables] == CLASS)
+        self.X_train = np.array(self.df_train[X_variables])
+        self.y_train = np.array(self.df_train[y_variables] == CLASS)
+        self.X_test = np.array(self.df_test[X_variables])
+        self.y_test = np.array(self.df_test[y_variables] == CLASS)
 
     def preprocess_df(
         self,
         df: pd.DataFrame,
-        X_VARIABLES: list,
+        X_variables: list,
     ) -> pd.DataFrame:
         """Remove rows containing na in the dataset.
 
         Args:
             df (pd.DataFrame): Pandas dataframe.
-            X_VARIABLES (np.ndarray): Matrix containing dataset features to be evaluated.
-            Y_VARIABLE (np.ndarray): Array containing dataset labels (true, false).
+            X_variables (np.ndarray): Matrix containing dataset features to be evaluated.
+            y_variables (np.ndarray): Array containing dataset labels (true, false).
 
         Returns:
             pd.DataFrame: Filtered pandas dataframe without na values.
         """
-        df = df.dropna(subset=X_VARIABLES)
+        df = df.dropna(subset=X_variables)
         return df
 
 
@@ -246,12 +246,12 @@ if __name__ == "__main__":
 
     # Define dataset features and filter dataset by penguin class
     CLASS = df.Species.unique()[0]  # 0: Adelie
-    X_VARIABLES = [
+    X_variables = [
         "Culmen Length (mm)",
         "Culmen Depth (mm)",
     ]  # you can choose here different physical dimensions
-    Y_VARIABLE = "Species"
-    data = Data(df, CLASS, X_VARIABLES, Y_VARIABLE)
+    y_variables = "Species"
+    data = Data(df, CLASS, X_variables, y_variables)
 
     # Plot data
     print(
@@ -262,8 +262,8 @@ if __name__ == "__main__":
         data.X_test,
         data.y_train,
         data.y_test,
-        X_VARIABLES[0],
-        X_VARIABLES[1],
+        X_variables[0],
+        X_variables[1],
     )
 
     # Make model

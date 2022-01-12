@@ -17,12 +17,12 @@ def create_pytest_data():
     for i in range(0, 3):
         df = pd.read_csv("model/data/penguins.csv")
         CLASS = df.Species.unique()[i]
-        X_VARIABLES = [
+        X_variables = [
             "Culmen Length (mm)",
             "Culmen Depth (mm)",
         ]
-        Y_VARIABLE = "Species"
-        data = classifier.Data(df, CLASS, X_VARIABLES, Y_VARIABLE)
+        y_variables = "Species"
+        data = classifier.Data(df, CLASS, X_variables, y_variables)
         model = classifier.Model(data)
         model_metrics = classifier.get_model_metrics(data.y_test, model.y_pred_test)
         testcase = {

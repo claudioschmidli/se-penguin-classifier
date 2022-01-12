@@ -68,7 +68,8 @@ def get_model() -> sklearn.linear_model._logistic.LogisticRegression:
     config.read(os.path.join(CURRENT_DIR, "config.ini"))
     MODEL_PATH = config["CLASSIFICATION"]["MODEL_PATH"]
     MODEL_PATH = os.path.join(CURRENT_DIR, MODEL_PATH)
-    model = pickle.load(open(MODEL_PATH, "rb"))
+    with open(MODEL_PATH, "rb") as file:
+        model = pickle.load(file)
     return model
 
 
@@ -80,8 +81,8 @@ def create_app() -> Flask:
     """
     os.path.join(CURRENT_DIR, "config.ini")
     TEMPLATE_FOLDER = os.path.join(CURRENT_DIR, "templates")
-    app = Flask(__name__, template_folder=TEMPLATE_FOLDER)
-    return app
+    local_app = Flask(__name__, template_folder=TEMPLATE_FOLDER)
+    return local_app
 
 
 def render_result(
@@ -93,7 +94,7 @@ def render_result(
     """Format prediction result to HTML string.
 
     Args:
-        prediction (Union[np.ndarray, str]): Variable containing outcome of the prediction. (if error use ="error")
+        prediction (Union[np.ndarray, str]):    Variable containing outcome of the prediction. (if error use ="error")
         float_features (Optional[list], optional): List containing user input features. Defaults to [None, ].
 
     Returns:
@@ -109,7 +110,6 @@ def render_result(
             <div id=negative_result>
                 <p>Error! Please enter digits values as inputs!</p>
             """
-        return output
     elif prediction[0]:
         app.logger.info("The peguin was predicted as Adelie.")
         output = f"""
@@ -122,7 +122,6 @@ def render_result(
             <img src="static/adelie.png" alt="Yes it is Adelie">
         </div>
         """
-        return output
     else:
         app.logger.info("The peguin was predicted other than Adelie.")
         output = f"""
@@ -135,7 +134,7 @@ def render_result(
             <img src="static/no_adelie.png" alt="No it is not Adelie">
         </div>
         """
-        return output
+    return output
 
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -164,7 +163,8 @@ def predict() -> str:
     print(request.form.values())
     float_features = [x for x in request.form.values()]
     app.logger.info(
-        f"User input for prediction: Culmen length = {float_features[0]}, Culmen depth = {float_features[1]}"
+        f"User input for prediction: Culmen length = \
+        {float_features[0]}, Culmen depth = {float_features[1]}"
     )
     # @Tipi ich verstehe nicht wie man das anderst Formatieren kann mit dem Logger.
     try:
