@@ -1,18 +1,3 @@
-## To do's:
-- [x] Create model
-- [x] Build API
-- [x] Create git repository and share it on Gitlab
-- [x] Add pre-commit hooks
-- [x] CI pipline
-- [ ] Add unit tests for all more functions => Claudio
-- [x] Implement logging => Andrea
-- [x] Implement TOX => Andrea
-- [ ] Full documentation in readme.md => Claudio
-- [x] Code formating (doc strings, type hinting, object oriented programming) => Andrea
-- [ ] Deploy model
-- [ ] Add delight to the experience when all tasks are complete :tada:
-
-
 # Penguin Species Predictor
 SE Project by Claudio Schmidli and Andrea Siedmann
 
@@ -22,7 +7,6 @@ This repository contains the code and data for predicting the species membership
 The model used can predict whether or not a penguin belongs to a particular species based on its specific characteristics culmen length and depth. The default is the test for the species Adelie. The classification method of binary logistic regression is used for the prediction.
 
 A web application was programmed as the user interface.
-![image.png](attachment:image.png)
 
 The application is programmed in Python. The web application is developed with Flask.
 
@@ -31,7 +15,16 @@ The data source is a penguin dataset published on Kaggle with information on spe
 ## Installation
 The project can be downloaded [here](https://gitlab.com/claudio.schmidli/das-software-engineering-projektarbeit). In `requirements.txt` you can find, what python packages are required to run the project.
 
-## How to use the project
+## How to use this project
+In the file "classifier.py" the linear regression model is trained with the data from the penguin dataset and then saved as a PKL file. In addition, evaluation data on the quality of the model is generated. The penguin species to be examined can also be adjusted here.
+
+The web application is connected to the stored model in "app.py" via Flask. Flask also handles deployment and hosting. When executing the file, the Flask Server is started. If the Flask server is running the Flask application will route to the default URL path.
+
+The folder 'tests' contains the unit and integration tests. For Testing the Pytest framework was used. In these tests the correctness of the applications functionality and the model metrics are tested.
+
+The GitLab pipeline for this project is configured in "gitlab-ci.yml". More information on pipeline architectures can be found [here](https://docs.gitlab.com/ee/ci/pipelines/pipeline_architectures.html).
+
+Pre-commit hooks are used to ensure high commit quality. They are configured in ".pre-commit-config.yml". Further details on pre-commit can be found [here](https://pre-commit.com/).
 
 
 ## Authors
