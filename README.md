@@ -6,7 +6,7 @@ This repository contains the code and data for predicting the species membership
 ## Description
 The model used can predict whether or not a penguin belongs to a particular species based on its specific characteristics culmen length and depth. The default is the test for the species Adelie. The classification method of binary logistic regression is used for the prediction.
 
-A web application was programmed as the user interface. Please have a look at the online demo [here](https://penguin-classifier1-app.herokuapp.com/).
+A web application was programmed as the user interface. Please have a look at the online demo [here](https://penguin-classifier1-app.herokuapp.com/)(the first time loading the page takes several seconds in order to start up the app).
 
 The application is programmed in Python. The web application is developed with Flask.
 
@@ -18,18 +18,17 @@ The project can be downloaded [here](https://gitlab.com/claudio.schmidli/das-sof
 ## How to use this project
 
 #### Model
-In the file "classifier.py" the linear regression model is trained with the data from the penguin dataset and then saved as a PKL file. In addition, evaluation data on the quality of the model is generated. The penguin species to be examined can also be adjusted here.
+In the file `model\classifier.py` the linear regression model is trained with the data from the penguin dataset and then saved as a PKL file. In addition, evaluation data on the quality of the model is generated. The penguin species to be examined can also be adjusted here.
 
 #### Web app
-The web application is connected to the stored model in "app.py" via Flask. Flask also handles deployment and hosting. When executing the file, the Flask Server is started. If the Flask server is running the Flask application will route to the default URL path.
+The web application is connected to the stored model in `\API\flask\app.py` via Flask. Flask also handles deployment and hosting. When executing the file, the Flask Server is started. If the Flask server is running the Flask application will route to the default URL path.
 
 #### Testing
-For testing you can start the application from the root directory using one of the following commands:
+For testing you can start the application from the root directory using the following command:
 
- - `flask run`
  - `python \API\flask\app.py`
 
-The folder 'tests' contains the unit and integration tests. Pytest framework was used for testing. In these tests the correctness of the applications functionality and the model metrics are tested. Run all the tests by using the following command:
+The folder 'tests' contains the unit and integration tests. The Pytest framework was used for testing the applications functionality and the model metrics. Run all the tests by using the following command:
 
 - `pytest`
 
@@ -37,7 +36,7 @@ The folder 'tests' contains the unit and integration tests. Pytest framework was
 The GitLab pipeline for this project is configured in "gitlab-ci.yml". More information on pipeline architectures can be found [here](https://docs.gitlab.com/ee/ci/pipelines/pipeline_architectures.html). The configured CI pipline starts tox after pushing files to Gitlab which will perform the tests in a docker container.
 
 #### Pre-commit hooks
-Pre-commit hooks are used to ensure high commit quality. They are configured in ".pre-commit-config.yml". Further details on pre-commit can be found [here](https://pre-commit.com/). 
+Pre-commit hooks are used to ensure high commit quality. They are configured in ".pre-commit-config.yml". Further details can be found [here](https://pre-commit.com/). 
 
 The following packages are set up:
 
@@ -49,7 +48,7 @@ The following packages are set up:
 - pydocstyle
 
 #### Logging
-The app contains a logger which writes entries onto the command line as well as in local files in `/logs`. The different files contain information of different log levels (info/error).
+The app contains a logger which writes entries onto the command line as well as in local files in `/logs`. The different files contain information of the log levels `INFO` and `ERROR`.
 
 
 
@@ -67,9 +66,9 @@ Criteria: Classification model, not too complex, not too much computing power, d
 - Creating the folder structure
 - Creating the requirements.txt
 - Decomposition into object-oriented functions and classes, modularisation
-- Saving the model
+- Saving the model into a pickle file
 - Unit tests added
-- Pre-commit with black, autoflake, flake8 created
+- Pre-commit with black, autoflake, flake8, isort, pydocstyle created
 - Extension of functions with doc strings
 - Gitlab pipeline created
 - Created interface-based web application with Flask
@@ -77,15 +76,15 @@ Criteria: Classification model, not too complex, not too much computing power, d
 - Tox implemented
 - Various code cleanings, test and logging extensions implemented
 - monitoring with app-usage with info-log
-- furhter unit test and integration tests implemented
+- further unit test and integration tests implemented
 - ReadMe file completed
 - added branch for deployment to Heroku 
 - Deployment to [Heroku](https://penguin-classifier1-app.herokuapp.com/).
 
 ## Challenges
-- resolving merge-conflicts
-- logging Flask link not in logging-File
-- inplement type hints and add correct types in the hints
-- write clean code meeting PEP8 criteria
+- resolving merge-conflicts (example for merging two branches on 10 Jan, 2022, Commit 2b3f1207)
+- logging Flask app URL and other log entries into local log files as well as onto the command line interface
+- inplement type hints and add correct data types to hints
+- write clean code meeting PEP8 criteria (pylint suggestions are often hard to implement)
 - import own local modules from different directories
 - write a functional test for flask by using a test client
