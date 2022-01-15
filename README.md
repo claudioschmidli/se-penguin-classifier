@@ -6,7 +6,7 @@ This repository contains the code and data for predicting the species membership
 ## Description
 The model used can predict whether or not a penguin belongs to a particular species based on its specific characteristics culmen length and depth. The default is the test for the species Adelie. The classification method of binary logistic regression is used for the prediction.
 
-A web application was programmed as the user interface. Please have a look at the online demo [here](https://penguin-classifier1-app.herokuapp.com/)(the first time loading the page takes several seconds in order to start up the app).
+A web application was programmed as the user interface. Please have a look at the online demo [here](https://penguin-classifier1-app.herokuapp.com/) (the first time loading the page takes several seconds in order to start up the app).
 
 The application is programmed in Python. The web application is developed with Flask.
 
@@ -23,11 +23,11 @@ In the file `model\classifier.py` the linear regression model is trained with th
 #### Web app
 The web application is connected to the stored model in `\API\flask\app.py` via Flask. Flask also handles deployment and hosting. When executing the file, the Flask Server is started. If the Flask server is running the Flask application will route to the default URL path.
 
-#### Testing
 For testing you can start the application from the root directory using the following command:
 
- - `python \API\flask\app.py`
+ - `python /API/flask/app.py`
 
+#### Testing
 The folder 'tests' contains the unit and integration tests. The Pytest framework was used for testing the applications functionality and the model metrics. Run all the tests by using the following command:
 
 - `pytest`
@@ -36,7 +36,7 @@ The folder 'tests' contains the unit and integration tests. The Pytest framework
 The GitLab pipeline for this project is configured in "gitlab-ci.yml". More information on pipeline architectures can be found [here](https://docs.gitlab.com/ee/ci/pipelines/pipeline_architectures.html). The configured CI pipline starts tox after pushing files to Gitlab which will perform the tests in a docker container.
 
 #### Pre-commit hooks
-Pre-commit hooks are used to ensure high commit quality. They are configured in ".pre-commit-config.yml". Further details can be found [here](https://pre-commit.com/). 
+Pre-commit hooks are used to ensure high commit quality. They are configured in ".pre-commit-config.yml". Further details can be found [here](https://pre-commit.com/).
 
 The following packages are set up:
 
@@ -48,12 +48,15 @@ The following packages are set up:
 - pydocstyle
 
 #### Logging
-The app contains a logger which writes entries onto the command line as well as in local files in `/logs`. The different files contain information of the log levels `INFO` and `ERROR`.
+The app contains a logger which writes entries onto the command line as well as in local files in `\logs`. The different files contain information of the log levels `INFO` and `ERROR`.
 
-
-
-## Authors
-Claudio Schmidli, Andrea Siedmann
+### Procedure for locally testing the project functionality (unix-system)
+- unzip Zip-File
+- create virtual environment with `python3 -m venv pyenv`
+- activate virtual environment with `source pyenv/bin/activate`
+- install packages from requirements.txt with `pip install -r requirements.txt`
+- optional: testing of training and saving the model with `python model/classifier.py`
+- run application with `python API/flask/app.py`
 
 ## Procedure
 - Search for a matching data set: <br>
@@ -78,7 +81,7 @@ Criteria: Classification model, not too complex, not too much computing power, d
 - monitoring with app-usage with info-log
 - further unit test and integration tests implemented
 - ReadMe file completed
-- added branch for deployment to Heroku 
+- added branch for deployment to Heroku
 - Deployment to [Heroku](https://penguin-classifier1-app.herokuapp.com/).
 
 ## Challenges
